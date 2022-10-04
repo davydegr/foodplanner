@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}
+    Foodplanner
+{% endblock %}
+
+{% block body %}
+    <h1>Hoeveel recepten wil je zien?</h1>
+    <form action="/" method="POST">
+        <input type="number" autofocus name="amountToGenerate">
+        <input type="submit" value="Work the magic!">
+    </form>
+    <p>Alle recepten worden random gekozen uit de volledige database.</p>
+{% endblock %}
