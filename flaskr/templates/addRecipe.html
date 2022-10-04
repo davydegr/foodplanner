@@ -6,7 +6,7 @@
 
 {% block body %}
     <h1>Voeg een recept toe</h1>
-    <form action="{{ url_for('addRecipe') }}" method="POST">
+    <form action="{{ url_for('views.addRecipe') }}" method="POST">
         <label for="recipeName">Naam recept:</label>
         <input type="text" name="recipeName" autofocus placeholder="Naam van het recept" required>
         <label for="recipeRating">Score van 1 tot 10:</label>

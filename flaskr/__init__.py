@@ -23,37 +23,19 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # The routes to be defined
-
-    @app.route("/", methods=['GET', 'POST'])
-    def index():
-        if request.method == 'POST':
-            # Get the submitted amount of recipes
-            amountToGenerate = request.form['amountToGenerate']
-
-            # TODO: Implement Flash messages if the input isn't correct
-
-            # TODO: Print out the recipes
-            print(f'{amountToGenerate} recepten gegenereerd')
-
-            return render_template('index.html')
-        else:
-            return render_template('index.html')
     
-    @app.route('/add-recipe', methods=['GET', 'POST'])
-    def addRecipe():
-        return render_template('addRecipe.html')
-
-    @app.route('/all-recipes')
-    def allRecipes():
-        return render_template('allRecipes.html')
-
-    @app.errorhandler(404)
-    def page_not_found(error):
-        return render_template('pageNotFound.html'), 404
 
     from . import db
     db.init_app(app)
+
+    from . import auth
+    app.register_blueprint(auth.auth)
+
+    from . import views
+    app.register_blueprint(views.views)
+
+
+
 
     return app
 

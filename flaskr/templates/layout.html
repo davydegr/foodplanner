@@ -10,21 +10,75 @@
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
-       
-        <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+      <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{{ url_for('views.index') }}">Foodplanner</a>
+          
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('views.addRecipe') }}">Recept toevoegen</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('views.allRecipes') }}">Alle recepten</a>
+              </li>
+            </ul>
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+              {% if g.user %}
+              <li class="nav-item">
+                <a href="#" class="nav-link disabled">{{ g.user['username'] }}</a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ url_for('auth.logout') }}" class="nav-link">Log out</a>
+              </li>
+
+              {% else %}
+
+              <li class="nav-item">
+                <a href="{{ url_for('auth.register') }}" class="nav-link">Registreren</a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ url_for('auth.login') }}" class="nav-link">Inloggen</a>
+              </li>
+
+
+              {% endif %}
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+        <!-- <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
             <div class="container-fluid">
-              <a class="navbar-brand" href="{{ url_for('index') }}">Foodplanner</a>
+              <a class="navbar-brand" href="{{ url_for('views.index') }}">Foodplanner</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                  <a class="nav-link" href="{{ url_for('addRecipe') }}">Nieuw recept</a>
-                  <a class="nav-link" href="{{ url_for('allRecipes') }}">Alle recepten</a>
+                  <a class="nav-link" href="{{ url_for('views.addRecipe') }}">Nieuw recept</a>
+                  <a class="nav-link" href="{{ url_for('views.allRecipes') }}">Alle recepten</a>
+                </div>
+                <div class="navbar-nav ml-auto">
+                  <a class="nav-link" href="#">Test</a>
                 </div>
               </div>
             </div>
-          </nav>
+          </nav> -->
 
         <main>
             {% block body %}{% endblock %}
