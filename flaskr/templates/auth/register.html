@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Registreren
+{% endblock %}
+
+{% block body %}
+
+    <h1>Een nieuwe account aanmaken</h1>
+    
+    <form method="POST">
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Gebruikersnaam</span>
+            <input type="text" name="username" id="username" placeholder="Typ hier je gebruikersnaam" required class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Wachtwoord</span>
+            <input type="password" name="password" id="password" placeholder="Typ hier je wachtwoord" required class="form-control">
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Bevestig wachtwoord</span>
+            <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Bevestig je wachtwoord" required class="form-control">
+        </div>
+
+        <input type="submit" value="Registreren" class="btn btn-outline-secondary">
+    </form>
+{% endblock %}

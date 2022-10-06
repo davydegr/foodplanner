@@ -2,9 +2,12 @@ from flask import (
     Blueprint, redirect, render_template, request, session, url_for
 )
 
+from .auth import login_required
+
 views = Blueprint('views', __name__)
 
 @views.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
     if request.method == 'POST':
         # Get the submitted amount of recipes

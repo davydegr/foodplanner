@@ -14,6 +14,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        passwordConfirm = request.form['passwordConfirm']
         db = get_db()
         error = None
 
@@ -21,12 +22,14 @@ def register():
             error = 'Username is required'
         elif not password:
             error = 'Password is required'
+        elif password != passwordConfirm:
+            error = 'Passwords must match'
 
         if error is None:
             try:
                 db.execute(
                     'INSERT INTO user (username, password) VALUES (?, ?)',
-                    (username, generate_password_hash(password))
+                    (username, generate_password_hash(password),)
                 )
                 db.commit()
             except db.IntegrityError:
@@ -47,7 +50,7 @@ def login():
         error = None
 
         user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username)
+            'SELECT * FROM user WHERE username = ?', (username,)
         ).fetchone()
         
         if user is None:
@@ -58,7 +61,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            return redirect(url_for('views.index'))
         
         flash(error)
 
@@ -67,12 +70,12 @@ def login():
 @auth.route('logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('views.index'))
 
 
 @auth.before_app_request
 def load_logged_in_user():
-    user_id = session.get('user_id')
+    user_id = [session.get('user_id')]
 
     if user_id is None:
         g.user = None

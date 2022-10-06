@@ -7,12 +7,25 @@
 {% block body %}
     <h1>Voeg een recept toe</h1>
     <form action="{{ url_for('views.addRecipe') }}" method="POST">
-        <label for="recipeName">Naam recept:</label>
-        <input type="text" name="recipeName" autofocus placeholder="Naam van het recept" required>
-        <label for="recipeRating">Score van 1 tot 10:</label>
-        <input type="number" name="recipeRating" placeholder="Rating van 1 tot 5" min="1" max="10" required>
-        <label for="url">Link naar het recept:</label>
-        <input type="text" name="url" placeholder="Link naar het recept" required>
-        <input type="submit" value="Toevoegen!">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Naam</span>
+            <input type="text" class="form-control" name="recipeName" autofocus placeholder="Naam van het recept" required>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Score (1-10)</span>
+            <input type="number" class="form-control" name="recipeRating" autofocus placeholder="Geef een score van 1 tot 10" required>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Link naar het recept</span>
+            <input type="text" class="form-control" name="url" placeholder="Typ hier de link naar het recept">
+        </div>
+
+        <input type="submit" class="btn btn-outline-secondary" value="Toevoegen!">
+
+
+
     </form>
+
 {% endblock %}

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Inloggen
+{% endblock %}
+
+{% block body %}
+
+    <h1>Inloggen op je account</h1>
+    
+    <form method="POST">
+
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Gebruikersnaam</span>
+            <input type="text" name="username" id="username" placeholder="gebruikersnaam" class="form-control" required>
+        </div>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text">Wachtwoord</span>
+            <input type="password" name="password" id="password" placeholder="wachtwoord" class="form-control" required>
+        </div>
+
+        <input type="submit" class="btn btn-outline-secondary" value="Inloggen">
+    </form>
+{% endblock %}
