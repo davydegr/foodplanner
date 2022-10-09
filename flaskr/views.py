@@ -1,6 +1,10 @@
 from flask import (
-    Blueprint, redirect, render_template, request, session, url_for
+    Blueprint, redirect, render_template, request, session, url_for, flash
 )
+
+import sqlite3
+
+from flaskr.db import get_db
 
 from .auth import login_required
 
@@ -23,10 +27,62 @@ def index():
         return render_template('index.html')
 
 @views.route('/add-recipe', methods=['GET', 'POST'])
+@login_required
 def addRecipe():
-    return render_template('addRecipe.html')
+    if request.method == 'POST':
+        recipeName = request.form['recipeName']
+        recipeRating = request.form['recipeRating']
+        url = request.form['url']
+        recipeAuthor = request.form['recipeAuthor']
+        recipeRating = request.form['recipeRating']
+        submittedBy = request.form['submittedBy']
+
+        error = None
+        db = get_db()
+
+        if not recipeName:
+            error = 'Voeg de naam van het recept toe.'
+        if not recipeRating:
+            error = 'Geef een rating aan het recept.'
+        if int(recipeRating) < 1 or int(recipeRating) > 5:
+            error = 'Geef een rating tussen 1 en 5.'
+        if not url:
+            error = 'Voeg een geldige url van het recept toe.'
+        if not recipeAuthor:
+            error = 'Voeg een geldige auteur toe.'
+
+        if error is None:
+            try:
+                db.execute(
+                    'INSERT INTO recipes (submitted_by, name, author, rating, url) VALUES (?, ?, ?, ?, ?)',
+                    (submittedBy, recipeName, recipeAuthor, recipeRating, url)
+                )
+                db.commit()
+            except db.IntegrityError:
+                error = "Recipe is already registered."           
+            else:
+                flash('Recept werd succesvol toegevoegd')
+                return redirect(url_for('views.addRecipe'))
+
+
+        flash(error)
+        return render_template('addRecipe.html')
+
+
+
+    else:
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('SELECT * FROM user;')
+        query = cursor.fetchall()
+
+        for row in query:
+            print(row['id'])
+
+        return render_template('addRecipe.html', query=query)
 
 @views.route('/all-recipes')
+@login_required
 def allRecipes():
     return render_template('allRecipes.html')
 

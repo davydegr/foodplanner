@@ -6,6 +6,10 @@
 
 {% block body %}
     <h1>Voeg een recept toe</h1>
+    {% for row in query %}
+        <p>{{ row['id'] }}</p>
+    {% endfor %}
+    
     <form action="{{ url_for('views.addRecipe') }}" method="POST">
         <div class="input-group mb-3">
             <span class="input-group-text">Naam</span>
@@ -13,18 +17,26 @@
         </div>
 
         <div class="input-group mb-3">
-            <span class="input-group-text">Score (1-10)</span>
-            <input type="number" class="form-control" name="recipeRating" autofocus placeholder="Geef een score van 1 tot 10" required>
+            <span class="input-group-text">Score (1-5)</span>
+            <input type="number" class="form-control" name="recipeRating" autofocus placeholder="Geef een score van 1 tot 5" required>
         </div>
 
         <div class="input-group mb-3">
             <span class="input-group-text">Link naar het recept</span>
             <input type="text" class="form-control" name="url" placeholder="Typ hier de link naar het recept">
         </div>
+        
+        <div class="input-group mb-3">
+            <span class="input-group-text">Auteur van het recept</span>
+            <input type="text" class="form-control" name="recipeAuthor" placeholder="Van wie is het recept?">
+        </div>
+
+
+        <input type="text"  name="submittedBy" hidden value="{{ g.user['id'] }}">
+        
+
 
         <input type="submit" class="btn btn-outline-secondary" value="Toevoegen!">
-
-
 
     </form>
 
