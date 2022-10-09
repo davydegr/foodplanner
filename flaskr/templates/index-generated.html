@@ -1,11 +1,10 @@
 {% extends "layout.html" %}
-
 {% block title %}
-    Alle recepten
+    Foodplanner
 {% endblock %}
 
 {% block body %}
-    <h1>Dit zijn alle recepten in de database:</h1>
+    <h1>Dit zijn jouw resultaten!</h1>
 
     <div class="container">
         <div class="row">
@@ -26,6 +25,13 @@
         </div>
     </div>
 
+    <h2>Nieuwe recepten genereren?</h2>
+    <form action="{{ url_for('views.index') }}" method="POST">
 
+    <div class="input-group mb-3">
+        <input type="number" class="form-control" placeholder="Typ een nummer van 1 tot 5" autofocus name="amountToGenerate">
+        <input type="submit" class="btn btn-outline-secondary" value="Work the magic!">
+    </div>
 
+</form>
 {% endblock %}

@@ -14,15 +14,24 @@ views = Blueprint('views', __name__)
 @login_required
 def index():
     if request.method == 'POST':
+        db = get_db()
+        error = None
+
         # Get the submitted amount of recipes
         amountToGenerate = request.form['amountToGenerate']
 
+        if int(amountToGenerate) < 1 or int(amountToGenerate) > 5:
+            error = "Vul een nummer van 1 tot 5 in."
+            flash(error)
+            return render_template('index.html')
+
         # TODO: Implement Flash messages if the input isn't correct
+        query = db.execute(
+            'SELECT * FROM recipes ORDER BY RANDOM() LIMIT ?;',
+            (amountToGenerate)
+        )
 
-        # TODO: Print out the recipes
-        print(f'{amountToGenerate} recepten gegenereerd')
-
-        return render_template('index.html')
+        return render_template('index-generated.html', query=query)
     else:
         return render_template('index.html')
 
@@ -61,7 +70,7 @@ def addRecipe():
             except db.IntegrityError:
                 error = "Recipe is already registered."           
             else:
-                flash('Recept werd succesvol toegevoegd')
+                flash(f'{recipeName} werd succesvol toegevoegd aan de database!')
                 return redirect(url_for('views.addRecipe'))
 
 
@@ -84,7 +93,13 @@ def addRecipe():
 @views.route('/all-recipes')
 @login_required
 def allRecipes():
-    return render_template('allRecipes.html')
+    db = get_db()
+
+    query = db.execute(
+        'SELECT * FROM recipes;'
+    )
+
+    return render_template('allRecipes.html', query=query)
 
 @views.errorhandler(404)
 def page_not_found(error):
