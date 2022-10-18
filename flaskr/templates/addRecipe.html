@@ -5,35 +5,37 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Voeg een recept toe</h1>
+    <h1>Voeg een recept toe aan de database</h1>
     
     <form action="{{ url_for('views.addRecipe') }}" method="POST">
-        <div class="input-group mb-3">
-            <span class="input-group-text">Naam</span>
+
+        <div class="form-floating mb-3">
             <input type="text" class="form-control" name="recipeName" autofocus placeholder="Naam van het recept" required>
+            <label for="recipeName">Naam van het recept</label>
         </div>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">Score (1-5)</span>
+
+        <div class="form-floating mb-3">
             <input type="number" class="form-control" name="recipeRating" autofocus placeholder="Geef een score van 1 tot 5" required>
+            <label for="recipeRating">Score van 1 tot 5</label>
         </div>
 
-        <div class="input-group mb-3">
-            <span class="input-group-text">Link naar het recept</span>
+        <div class="form-floating mb-3">
             <input type="text" class="form-control" name="url" placeholder="Typ hier de link naar het recept">
+            <label for="url">Link naar het recept</label>
         </div>
         
-        <div class="input-group mb-3">
-            <span class="input-group-text">Auteur van het recept</span>
+        <div class="form-floating mb-3">
             <input type="text" class="form-control" name="recipeAuthor" placeholder="Van wie is het recept?">
+            <label for="recipeAuthor">Auteur van het recept</label>
+
         </div>
 
-
+        <!-- Add user ID to submitted recipe -->
         <input type="text"  name="submittedBy" hidden value="{{ g.user['id'] }}">
         
 
-
-        <input type="submit" class="btn btn-outline-secondary" value="Toevoegen!">
+        <input type="submit" class="btn btn-danger" value="Voeg dit recept toe!">
 
     </form>
 
